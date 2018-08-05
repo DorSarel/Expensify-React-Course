@@ -19,7 +19,7 @@ export class ExpenseListFilters extends React.Component {
     };
 
     onTextChange =  (e) => {
-        props.setTextFilter(e.target.value);
+        this.props.setTextFilter(e.target.value);
     };
 
     onSortChange = (e) => {
@@ -72,4 +72,4 @@ const mapDispatchToProps = (dispatch) => ({
     setEndDate: (endDate) => dispatch(setEndDate((endDate)))
 });
 
-export default connect(mapStateToProps)(ExpenseListFilters);
+export default connect(mapStateToProps, mapDispatchToProps)(ExpenseListFilters);
