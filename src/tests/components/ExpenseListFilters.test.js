@@ -56,7 +56,7 @@ test('should sort by amount', () => {
     wrapper.find('select').simulate('change', {
         target: { value }
     });
-    expect(sortByDate).toHaveBeenCalled();
+    expect(sortByAmount).toHaveBeenCalled();
 });
 
 test('should handle date changes', () => {
