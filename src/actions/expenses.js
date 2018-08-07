@@ -1,16 +1,37 @@
 import uuid from 'uuid';
+import database from '../firebase/firebase';
 
 // ADD_EXPENSE
-export const addExpense = ({ description = '', note = '', amount = 0, createdAt = 0 } = {}) => ({
+export const addExpense = (expense) => ({
     type: 'ADD_EXPENSE',
-    expense: {
-        id: uuid(),
-        description,
-        note,
-        amount,
-        createdAt
-    }
+    expense
 });
+
+
+/*
+Action generator - return a function with the dispatch function.
+In the return function - add the item to the DB
+then() -> Dispatch the regular action to change the redux store
+*/
+export const startAddExpense = (expenseData = {}) => {
+    return (dispatch) => {
+        const {
+            description = '',
+            note = '',
+            amount = 0,
+            createdAt = 0
+        } = expenseData;
+
+        const expense = { description, note, amount, createdAt };
+        return database.ref('expenses').push(expense)
+            .then((ref) => {
+                dispatch(addExpense({
+                    id: ref.key,
+                    ...expense
+                }));
+            });
+    };
+};
 
 // REMOVE_EXPENSE
 export const removeExpense = ({ id } = {}) => ({
