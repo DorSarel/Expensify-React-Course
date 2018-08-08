@@ -3,14 +3,14 @@ import { shallow } from 'enzyme';
 import { EditExpense } from '../../components/EditExpense';
 import expenses from '../fixtures/expenses';
 
-let expense, editExpense, startRemoveExpense, history, wrapper;
+let expense, startEditExpense, startRemoveExpense, history, wrapper;
 
 beforeEach(() => {
     expense = expenses[0];
-    editExpense = jest.fn();
+    startEditExpense = jest.fn();
     startRemoveExpense = jest.fn();
     history = { push: jest.fn() };
-    wrapper = shallow(<EditExpense editExpense={editExpense} startRemoveExpense={startRemoveExpense} expense={expense} history={history} />);
+    wrapper = shallow(<EditExpense startEditExpense={startEditExpense} startRemoveExpense={startRemoveExpense} expense={expense} history={history} />);
 });
 
 test('should render EditExpense', () => {
@@ -19,7 +19,7 @@ test('should render EditExpense', () => {
 
 test('should handle editExpense', () => {
     wrapper.find('ExpenseForm').prop('onSubmit')({ note: 'new note' });
-    expect(editExpense).toHaveBeenLastCalledWith(expense.id, { note: 'new note' });
+    expect(startEditExpense).toHaveBeenLastCalledWith(expense.id, { note: 'new note' });
     expect(history.push).toHaveBeenLastCalledWith('/');
 });
 
